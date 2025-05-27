@@ -8,6 +8,8 @@ const routes = [
     { path: '/knife/:id', component: () => import('../views/Knife.vue') },
     { path: '/profile', component: () => import('../views/User.vue') },
     { path: '/logout', component: () => import('../views/Logout.vue') },
+    { path: '/buy/:id', component: () => import('../views/Buy.vue') },
+    { path: '/purchese', component: () => import('../views/Purchese.vue') },
     { path: '/:pathMatch(.*)*', component: () => import('../views/NotFound.vue') },
 ];
 

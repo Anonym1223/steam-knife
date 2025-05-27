@@ -10,6 +10,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::resource('knives',KnifeController::class);
+    Route::get("/buy/{id}",[KnifeController::class,'buy']);
 });
 
 

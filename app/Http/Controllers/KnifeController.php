@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Knife;
+use App\Models\purchese;
 use Illuminate\Http\Request;
 
 class KnifeController extends Controller
 {
+    public function buy($id){
+        $knife = Knife::findOrFail($id);
+        $purchese = new purchese();
+        $purchese->user= auth()->user->id;
+        $purchese->knife= $knife->id;
+        $purchese->save();
+        return $purchese;
+    }
     /**
      * Display a listing of the resource.
      */

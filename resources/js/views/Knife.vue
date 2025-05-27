@@ -6,7 +6,7 @@
         <p><strong>ID:</strong> {{ knife.id }}</p>
         <p><strong>Название:</strong> {{ knife.name }}</p>
         <img :src="knife.image" alt="knife" class="mt-4 w-64" />
-        <a href=""></a>
+        <a :href="`/buy/${knife.id}`" class="mt-4 bg-green-400 text-white px-6 py-3 block w-max rounded-2xl">Покупать</a>
       </div>
       <p v-else>Загрузка...</p>
     </div>
@@ -16,7 +16,6 @@
   import axios from 'axios';
   
   export default {
-    name: 'KnifeDetail',
     data() {
       return {
         knife: null
