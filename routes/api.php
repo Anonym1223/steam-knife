@@ -9,8 +9,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
     Route::resource('knives',KnifeController::class);
     Route::get("/buy/{id}",[KnifeController::class,'buy']);
+    Route::get("/logout", function (Request $request) {
+        // Удаляем текущий токен пользователя
+        $request->user()->currentAccessToken()->delete();
+    
+        return response()->json(['message' => 'Вы успешно вышли из системы']);
+    });
 });
 
 
