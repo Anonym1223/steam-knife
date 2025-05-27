@@ -1,24 +1,16 @@
 <template>
-    <div class="max-w-md mx-auto mt-10">
-        <h1 class="text-2xl font-bold mb-4">Регистрация</h1>
-        <form @submit.prevent="register">
+    <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">Вход</h1>
+        <form @submit.prevent="login">
             <div class="mb-4">
-                <label class="block text-gray-700">Имя</label>
-                <input v-model="form.name" type="text" class="w-full p-2 border rounded" required>
+                <label class="block text-gray-700 font-medium">Email</label>
+                <input v-model="form.email" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700">Email</label>
-                <input v-model="form.email" type="email" class="w-full p-2 border rounded" required>
+                <label class="block text-gray-700 font-medium">Пароль</label>
+                <input v-model="form.password" type="password" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Пароль</label>
-                <input v-model="form.password" type="password" class="w-full p-2 border rounded" required>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Подтверждение пароля</label>
-                <input v-model="form.password_confirmation" type="password" class="w-full p-2 border rounded" required>
-            </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Зарегистрироваться</button>
+            <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Войти</button>
         </form>
     </div>
 </template>
@@ -30,22 +22,21 @@ export default {
     data() {
         return {
             form: {
-                name: '',
                 email: '',
                 password: '',
-                password_confirmation: '',
             },
         };
     },
     methods: {
-        async register() {
+        async login() {
             try {
-                const response = await axios.post('/register', this.form);
+                const response = await axios.post('/login', this.form);
                 localStorage.setItem('token', response.data.token);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
                 this.$router.push('/knives');
             } catch (error) {
-                console.error('Ошибка регистрации:', error.response?.data?.message || error.message);
-                alert('Ошибка регистрации');
+                console.error('Ошибка входа:', error.response?.data?.message || error.message);
+                alert('Неверные данные для входа');
             }
         },
     },

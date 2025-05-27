@@ -36,7 +36,8 @@ class KnifeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $knife = Knife::findOrFail($id);
+        return $knife;
     }
 
     /**

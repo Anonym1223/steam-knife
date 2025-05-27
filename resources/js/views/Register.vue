@@ -7,6 +7,10 @@
                 <input v-model="form.name" type="text" class="w-full p-2 border rounded" required>
             </div>
             <div class="mb-4">
+                <label class="block text-gray-700">Login</label>
+                <input v-model="form.login" type="text" class="w-full p-2 border rounded" required>
+            </div>
+            <div class="mb-4">
                 <label class="block text-gray-700">Email</label>
                 <input v-model="form.email" type="email" class="w-full p-2 border rounded" required>
             </div>
@@ -32,6 +36,7 @@ export default {
             form: {
                 name: '',
                 email: '',
+                login: '',
                 password: '',
                 password_confirmation: '',
             },
@@ -42,7 +47,7 @@ export default {
             try {
                 const response = await axios.post('/register', this.form);
                 localStorage.setItem('token', response.data.token);
-                this.$router.push('/knives');
+                this.$router.push('/');
             } catch (error) {
                 console.error('Ошибка регистрации:', error.response?.data?.message || error.message);
                 alert('Ошибка регистрации');

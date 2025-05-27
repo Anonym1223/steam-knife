@@ -15,33 +15,41 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'login' => 'required|string',
         ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'login' => $request->login,
             'password' => Hash::make($request->password),
         ]);
-
         $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json(['token' => $token, 'user' => $user], 201);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'email',
+            // 'login' => 'string',
             'password' => 'required',
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            if (!Auth::attempt($request->only('login', 'password'))) {
+                return response()->json(['message' => 'Invalid credentials'], 401);
+            }
         }
 
         $user = User::where('email', $request->email)->first();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $user]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Выход выполнен']);
     }
 }
